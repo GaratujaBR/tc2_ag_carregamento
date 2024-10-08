@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from algoritmo_genetico import algoritmo_genetico, decodificar_solucao
 from heuristica_gulosa import heuristica_gulosa
-from visualizacoes import plot_comparison, plot_boxplot, plot_execution_time, plot_improvements
+from visualizacoes import *
 from utils import gerar_dados_conteineres
 
 # Configurações globais
 random.seed(42)  # Para reprodutibilidade
-plt.style.use('seaborn')
+sns.set_theme()
 sns.set_palette("deep")
 plt.rcParams['figure.figsize'] = (10, 6)
 plt.rcParams['font.size'] = 12
@@ -84,10 +84,11 @@ def experimento_completo(max_peso, max_volume, num_conteineres, params_ag, num_e
     plot_comparison(len(resultados['AG']['conteineres']), len(resultados['Gulosa']['conteineres']), 
                     'Comparação do Número de Contêineres', 'Número de Contêineres', 'resultados/num_conteineres_comparacao.png')
     
-    plot_boxplot(resultados_ag_multiplos, 'Distribuição dos Resultados do AG', 'Valor do Frete ($)', 'resultados/ag_resultados_distribuicao.png')
-    
-    plot_execution_time(resultados['AG']['tempo_execucao'], resultados['Gulosa']['tempo_execucao'], 
-                        'Comparação de Tempo de Execução', 'resultados/tempo_execucao_comparacao.png')
+    plot_boxplot(resultados_ag_multiplos, filename='resultados/ag_resultados_distribuicao.png')
+
+    print(f"tempo_ag: {resultados['AG']['tempo_execucao']}, tempo_hg: {resultados['Gulosa']['tempo_execucao']}")
+
+    plot_execution_time(resultados['AG']['tempo_execucao'], resultados['Gulosa']['tempo_execucao'], filename='tempo_execucao_comparacao.png')
     
     melhoria_valor = ((np.mean(resultados_ag_multiplos) / resultados['Gulosa']['valor_total']) - 1) * 100
     melhoria_conteineres = ((len(resultados['AG']['conteineres']) / len(resultados['Gulosa']['conteineres'])) - 1) * 100
