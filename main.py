@@ -3,6 +3,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 from algoritmos import executar_comparacao, gerar_dados_conteineres, algoritmo_genetico, decodificar_solucao
 from visualizacoes import plot_comparison, plot_boxplot, plot_execution_time, plot_improvements
 
@@ -22,6 +23,9 @@ def executar_ag_multiplas_vezes(dados_conteineres, max_peso, max_volume, params_
     return resultados
 
 def experimento_completo(max_peso, max_volume, num_conteineres, params_ag, num_execucoes_consistencia=10):
+    if not os.path.exists('resultados'):
+        os.makedirs('resultados')
+    
     dados_conteineres = gerar_dados_conteineres(num_conteineres)
     
     print("Executando comparação entre todos os algoritmos...")
