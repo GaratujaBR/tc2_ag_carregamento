@@ -15,40 +15,6 @@ plt.rcParams['axes.titlesize'] = 12
 plt.rcParams['xtick.labelsize'] = 8
 plt.rcParams['ytick.labelsize'] = 8
 
-def plot_comparison(ag_value, hg_value, title, ylabel, filename=None):
-    #<<<<<<<<<<<<<<Codeium Command>>>>>>>>>>>>>>>>
-    """
-    Plota um gráfico de barras comparando os valores de AG e HG.
-    
-    Parameters
-    ----------
-    ag_value : float
-        Valor do AG.
-    hg_value : float
-        Valor do HG.
-    title : str
-        Título do gráfico.
-    ylabel : str
-        Label do eixo y.
-    filename : str, optional
-        Nome do arquivo para salvar o gráfico. Se None, o gráfico será mostrado na tela.
-    """
-#<<<<<<<  "9991428f-95a5-44a9-ba9d-1c4add9d2fef"  >>>>>>>
-    fig, ax = plt.subplots()
-    bars = ax.bar(['AG', 'HG'], [ag_value, hg_value], color=['#ff9999', '#66b3ff'])
-    ax.set_title(title)
-    ax.set_ylabel(ylabel)
-    
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height, f'{height:.2f}', 
-                ha='center', va='bottom', fontsize=8)
-
-    ax.grid(axis='y', linestyle='--', alpha=0.7)
-    if filename:
-        plt.savefig(filename, dpi=300, bbox_inches='tight')
-    plt.show()
-
 def plot_boxplot(resultados_ag, filename=None):
     fig, ax = plt.subplots()
     sns.boxplot(y=resultados_ag, color='#99ff99', ax=ax)
@@ -60,37 +26,43 @@ def plot_boxplot(resultados_ag, filename=None):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
     plt.show()
 
-def plot_execution_time(tempo_ag, tempo_hg, filename=None):
-    # Configurando explicitamente o tamanho da figura e o DPI
-    fig, ax = plt.subplots(figsize=(6, 4), dpi=50)  # Ajuste os valores de acordo com a necessidade
-    bars = ax.bar(['AG', 'HG'], [tempo_ag, tempo_hg], color=['#ff9999', '#66b3ff'])
+def plot_comparison(valores, labels, title, ylabel, filename=None):
+    fig, ax = plt.subplots()
+    bars = ax.bar(labels, valores, color=['#ff9999', '#66b3ff', '#99ff99', '#ffcc99'][:len(valores)])
+    ax.set_title(title)
+    ax.set_ylabel(ylabel)
+    
+    for bar in bars:
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2., height, f'{height:.2f}',
+                ha='center', va='bottom', fontsize=8)
+
+    ax.grid(axis='y', linestyle='--', alpha=0.7)
+    if filename:
+        plt.savefig(filename, dpi=300, bbox_inches='tight')
+    plt.show()
+
+def plot_execution_time(tempos, labels, filename=None):
+    fig, ax = plt.subplots(figsize=(6, 4), dpi=50)
+    bars = ax.bar(labels, tempos, color=['#ff9999', '#66b3ff', '#99ff99', '#ffcc99'][:len(tempos)])
     
     ax.set_title('Comparação de Tempo de Execução')
     ax.set_ylabel('Tempo (segundos)')
 
-    # Limites explícitos do gráfico para evitar escalonamento exagerado
-    ax.set_ylim([min(tempo_ag, tempo_hg) * 0.9, max(tempo_ag, tempo_hg) * 1.1])
+    ax.set_ylim([min(tempos) * 0.9, max(tempos) * 1.1])
     
     for bar in bars:
         height = bar.get_height()
         ax.text(bar.get_x() + bar.get_width() / 2., height, f'{height:.2f}s',
                 ha='center', va='bottom', fontsize=8)
 
-    # Desabilitar a escala logarítmica, caso esteja causando problemas
-    # ax.set_yscale('log')
-
-    # Configurando layout automático para garantir que tudo fique dentro dos limites
     plt.tight_layout()
 
-    # Salvando a figura com um DPI menor para reduzir o tamanho da imagem
     if filename:
         plt.savefig(filename, dpi=50, bbox_inches='tight')
     
-    # Liberando a memória
     plt.close()
 
-
-    
 
 def plot_improvements(melhorias, labels=['Valor do Frete', 'Número de Contêineres'], title='Melhorias Percentuais do AG vs HG', filename=None):
     fig, ax = plt.subplots()
@@ -137,3 +109,6 @@ def gerar_todas_visualizacoes(resultados, resultados_ag, num_conteineres_ag, num
     print(f"Melhoria percentual do AG no número de contêineres: {melhoria_conteineres:.2f}%")
     print(f"\nTempo de execução AG: {resultados['AG']['tempo_execucao']:.4f} segundos")
     print(f"Tempo de execução HG: {resultados['Gulosa']['tempo_execucao']:.4f} segundos")
+
+__all__ = ['plot_comparison', 'plot_boxplot', 'plot_execution_time', 'plot_improvements', 'gerar_todas_visualizacoes']
+
