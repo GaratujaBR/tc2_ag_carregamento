@@ -3,6 +3,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os  
 from algoritmo_genetico import algoritmo_genetico, decodificar_solucao
 from heuristica_gulosa import heuristica_gulosa
 from visualizacoes import *
@@ -14,6 +15,10 @@ sns.set_theme()
 sns.set_palette("deep")
 plt.rcParams['figure.figsize'] = (10, 6)
 plt.rcParams['font.size'] = 12
+
+# Criar pasta de resultados
+if not os.path.exists('resultados'):
+    os.makedirs('resultados')
 
 def executar_comparacao(dados_conteineres, max_peso, max_volume, params_ag):
     # Executar heurística gulosa
@@ -110,3 +115,4 @@ if __name__ == "__main__":
     }
 
     experimento_completo(MAX_PESO, MAX_VOLUME, NUM_CONTEINERES, params_ag)
+
