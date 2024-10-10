@@ -1,6 +1,12 @@
 import random
 import time
 
+def gerar_dados_conteineres(num_conteineres):
+    return [
+        [random.randint(10, 50), random.randint(50, 200), random.randint(30, 100)]
+        for _ in range(num_conteineres)
+    ]
+
 # Classe Individuo (se você estiver usando uma)
 class Individuo:
     def __init__(self, genoma):
@@ -234,3 +240,13 @@ def executar_comparacao(dados_conteineres, max_peso, max_volume, params_ag):
     }
     
     return resultados
+
+__all__ = [
+    'gerar_dados_conteineres',
+    'algoritmo_genetico',
+    'decodificar_solucao',
+    'heuristica_gulosa',
+    'algoritmo_aproximacao_razao',
+    'busca_local',
+    'executar_comparacao'
+]
