@@ -14,11 +14,9 @@ sns.set_palette("deep")
 plt.rcParams['figure.figsize'] = (12, 8)
 plt.rcParams['font.size'] = 12
 
-def experimento_completo(max_peso, max_volume, num_conteineres, params_ag, num_execucoes_consistencia=10):
+def experimento_completo(max_peso, max_volume, num_conteineres, dados_conteineres, params_ag, num_execucoes_consistencia=10):
     if not os.path.exists('resultados'):
         os.makedirs('resultados')
-
-    dados_conteineres = gerar_dados_conteineres(num_conteineres)
 
     print("Executando comparação entre todos os algoritmos...")
     resultados = executar_comparacao(dados_conteineres, max_peso, max_volume, params_ag)
@@ -90,6 +88,8 @@ if __name__ == "__main__":
         MAX_VOLUME = 5000  # metros cúbicos
         NUM_CONTEINERES = 50
 
+        dados_conteineres = gerar_dados_conteineres(NUM_CONTEINERES)
+
         params_ag = {
             "tamanho_populacao": 100,
             "num_geracoes": 1000,
@@ -98,7 +98,7 @@ if __name__ == "__main__":
             "funcao_selecao": selecao_torneio  # Adiciona a função de seleção aqui
         }
 
-        experimento_completo(MAX_PESO, MAX_VOLUME, NUM_CONTEINERES, params_ag)
+        experimento_completo(MAX_PESO, MAX_VOLUME, NUM_CONTEINERES, dados_conteineres, params_ag)
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
         import traceback
