@@ -4,23 +4,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-from algoritmos import gerar_dados_conteineres, executar_comparacao, algoritmo_genetico, decodificar_solucao, selecao_torneio, selecao_roleta, selecao_ranking
+from utils import gerar_dados_conteineres, decodificar_solucao, executar_ag_multiplas_vezes, executar_comparacao
+from algoritmo_genetico import selecao_torneio, selecao_roleta, selecao_ranking
 from visualizacoes import plot_comparison, plot_boxplot, plot_execution_time, plot_improvements
 
 # Configurações globais
-random.seed(42)  # Para reprodutibilidade
 sns.set_theme()
 sns.set_palette("deep")
 plt.rcParams['figure.figsize'] = (12, 8)
 plt.rcParams['font.size'] = 12
-
-def executar_ag_multiplas_vezes(dados_conteineres, max_peso, max_volume, params_ag, num_execucoes=10):
-    resultados = []
-    for _ in range(num_execucoes):
-        melhor_solucao = algoritmo_genetico(dados_conteineres, max_peso, max_volume, **params_ag)
-        resultado = decodificar_solucao(melhor_solucao, dados_conteineres)
-        resultados.append(resultado[3])  # Armazena apenas o valor total
-    return resultados
 
 def experimento_completo(max_peso, max_volume, num_conteineres, params_ag, num_execucoes_consistencia=10):
     if not os.path.exists('resultados'):
@@ -76,11 +68,16 @@ def experimento_completo(max_peso, max_volume, num_conteineres, params_ag, num_e
 
     # Melhorias Percentuais
     melhorias = []
+    valores = []
+    conteineres = []
     for algoritmo in resultados:
         if algoritmo != 'AG':
             melhoria_valor = ((resultados['AG']['valor_total'] / resultados[algoritmo]['valor_total']) - 1) * 100
+            valores.append(melhoria_valor)
             melhoria_conteineres = ((len(resultados['AG']['conteineres']) / len(resultados[algoritmo]['conteineres'])) - 1) * 100
-            melhorias.extend([melhoria_valor, melhoria_conteineres])
+            conteineres.append(melhoria_conteineres)
+    melhorias.extend(valores)
+    melhorias.extend(conteineres)
 
     labels = [f'{alg} (Valor)' for alg in resultados if alg != 'AG'] + [f'{alg} (Contêineres)' for alg in resultados if alg != 'AG']
     plot_improvements(melhorias, labels, 'Melhorias Percentuais do AG vs Outros Algoritmos', 'resultados/melhorias_percentuais.png')
@@ -98,7 +95,7 @@ if __name__ == "__main__":
             "num_geracoes": 1000,
             "taxa_crossover": 0.8,
             "taxa_mutacao": 0.01,
-            "funcao_selecao": selecao_ranking # selecao_torneio  # Adiciona a função de seleção aqui
+            "funcao_selecao": selecao_torneio  # Adiciona a função de seleção aqui
         }
 
         experimento_completo(MAX_PESO, MAX_VOLUME, NUM_CONTEINERES, params_ag)
