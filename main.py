@@ -6,7 +6,7 @@ import seaborn as sns
 import os
 from utils import gerar_dados_conteineres, decodificar_solucao, executar_ag_multiplas_vezes, executar_comparacao
 from algoritmo_genetico import selecao_torneio, selecao_roleta, selecao_ranking
-from visualizacoes import plot_comparison, plot_boxplot, plot_execution_time, plot_improvements
+from visualizacoes import plot_comparison, plot_execution_time, plot_improvements
 
 # Configurações globais
 sns.set_theme()
@@ -54,9 +54,6 @@ def experimento_completo(max_peso, max_volume, num_conteineres, dados_conteinere
     plot_comparison(num_conteineres, labels,
                     'Comparação do Número de Contêineres', 'Número de Contêineres',
                     'resultados/num_conteineres_comparacao.png')
-
-    # Boxplot dos resultados do AG
-    plot_boxplot(resultados_ag_multiplos, filename='resultados/ag_resultados_distribuicao.png')
 
     # Comparação de Tempo de Execução
     tempos_execucao = [resultado['tempo_execucao'] for resultado in resultados.values()]
