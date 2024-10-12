@@ -73,11 +73,11 @@ Este projeto visa contribuir para o entendimento de como algoritmos de otimizaç
    ```
    - **Usando dados estáticos e seleção por roleta**
    ```bash
-   python seu_script.py --dados estaticos --selecao roleta
+   python main.py --dados estaticos --selecao roleta
    ```
    - **Usando dados aleatórios e seleção por ranking**
    ```bash
-   python seu_script.py --dados aleatorios --selecao ranking
+   python main.py --dados aleatorios --selecao ranking
    ```
 
 ## Requisitos
