@@ -1,5 +1,4 @@
 import random
-import time
 from algoritmo_genetico import algoritmo_genetico
 from heuristica_gulosa import heuristica_gulosa
 from busca_local import busca_local

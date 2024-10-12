@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
 
 # Configuração de estilo
 #plt.style.use('seaborn')

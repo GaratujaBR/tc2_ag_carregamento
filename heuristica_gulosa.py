@@ -1,6 +1,3 @@
-import random
-import time
-
 def heuristica_gulosa(dados_conteineres, max_peso, max_volume):
     """
     Implementa a heurística gulosa para o problema de carregamento de contêineres.

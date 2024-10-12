@@ -1,4 +1,3 @@
-import random
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -6,7 +5,6 @@ import os
 from utils import gerar_dados_conteineres, gerar_dados_conteineres_estaticos, decodificar_solucao, executar_ag_multiplas_vezes, executar_comparacao
 from algoritmo_genetico import selecao_torneio, selecao_roleta, selecao_ranking
 from visualizacoes import plot_comparison, plot_improvements
-import pygame
 import argparse
 
 # Configurações globais

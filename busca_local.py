@@ -1,5 +1,4 @@
 import random
-import time
 
 def busca_local(dados_conteineres, max_peso, max_volume, max_iteracoes=1000):
     """
