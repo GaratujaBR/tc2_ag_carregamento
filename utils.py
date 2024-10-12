@@ -24,6 +24,27 @@ def gerar_dados_conteineres(num_conteineres):
 
     return dados_conteineres
 
+def gerar_dados_conteineres_estaticos():
+    """
+    Retorna uma lista estática de 50 contêineres com valores preenchidos.
+
+    Returns:
+        Uma lista de tuplas, onde cada tupla representa um contêiner e contém:
+            (peso, volume, valor)
+    """
+    return [
+        (9, 97, 288), (29, 7, 315), (11, 77, 145), (50, 56, 460), (30, 74, 619),
+        (18, 16, 276), (35, 36, 715), (50, 55, 956), (26, 87, 534), (8, 90, 956),
+        (26, 39, 830), (35, 4, 741), (3, 45, 285), (46, 8, 234), (1, 90, 850),
+        (15, 100, 490), (43, 84, 738), (34, 32, 447), (25, 58, 994), (29, 56, 949),
+        (26, 94, 641), (16, 18, 305), (42, 90, 584), (5, 87, 472), (33, 32, 810),
+        (38, 26, 529), (48, 4, 803), (6, 10, 595), (49, 98, 331), (16, 21, 749),
+        (49, 62, 518), (5, 100, 706), (49, 45, 487), (16, 54, 942), (18, 47, 167),
+        (2, 77, 812), (26, 69, 668), (27, 41, 231), (44, 67, 523), (32, 92, 715),
+        (2, 61, 629), (35, 28, 777), (13, 81, 223), (4, 11, 371), (12, 78, 818),
+        (1, 70, 930), (18, 17, 165), (46, 3, 572), (24, 74, 891), (13, 74, 890)
+    ]
+
 def decodificar_solucao(melhor_individuo, dados_conteineres):
     """
     Decodifica a solução representada pelo melhor indivíduo encontrado pelo algoritmo genético.
@@ -60,7 +81,7 @@ def decodificar_solucao(melhor_individuo, dados_conteineres):
 def executar_ag_multiplas_vezes(dados_conteineres, max_peso, max_volume, params_ag, num_execucoes=10):
     resultados = []
     for _ in range(num_execucoes):
-        melhor_solucao = algoritmo_genetico(dados_conteineres, max_peso, max_volume, **params_ag)
+        melhor_solucao = algoritmo_genetico(dados_conteineres, max_peso, max_volume, False, **params_ag)
         resultado = decodificar_solucao(melhor_solucao, dados_conteineres)
         resultados.append(resultado[3])  # Armazena apenas o valor total
     return resultados
@@ -96,40 +117,31 @@ def executar_comparacao(dados_conteineres, max_peso, max_volume, params_ag):
     resultados = {}
 
     # Heurística Gulosa
-    tempo_inicio = time.time()
     resultado_gulosa = heuristica_gulosa(dados_conteineres, max_peso, max_volume)
-    tempo_gulosa = time.time() - tempo_inicio
     resultados["Gulosa"] = {
         "conteineres": resultado_gulosa[0],
         "peso_total": resultado_gulosa[1],
         "volume_total": resultado_gulosa[2],
-        "valor_total": resultado_gulosa[3],
-        "tempo_execucao": tempo_gulosa
+        "valor_total": resultado_gulosa[3]
     }
 
     # Busca Local
-    tempo_inicio = time.time()
     resultado_bl = busca_local(dados_conteineres, max_peso, max_volume)
-    tempo_bl = time.time() - tempo_inicio
     resultados["Busca Local"] = {
         "conteineres": resultado_bl[0],
         "peso_total": resultado_bl[1],
         "volume_total": resultado_bl[2],
-        "valor_total": resultado_bl[3],
-        "tempo_execucao": tempo_bl
+        "valor_total": resultado_bl[3]
     }
 
     # Algoritmo Genético
-    tempo_inicio = time.time()
-    melhor_solucao_ag = algoritmo_genetico(dados_conteineres, max_peso, max_volume, **params_ag)
-    tempo_ag = time.time() - tempo_inicio
+    melhor_solucao_ag = algoritmo_genetico(dados_conteineres, max_peso, max_volume, True, **params_ag)
     resultado_ag = decodificar_solucao(melhor_solucao_ag, dados_conteineres)
     resultados["AG"] = {
         "conteineres": resultado_ag[0],
         "peso_total": resultado_ag[1],
         "volume_total": resultado_ag[2],
-        "valor_total": resultado_ag[3],
-        "tempo_execucao": tempo_ag
+        "valor_total": resultado_ag[3]
     }
 
     return resultados
