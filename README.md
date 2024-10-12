@@ -83,7 +83,7 @@ Este projeto visa contribuir para o entendimento de como algoritmos de otimizaç
 ## Requisitos
 
 - Python 3.7+
-- Bibliotecas: numpy, matplotlib, seaborn
+- Bibliotecas: numpy, matplotlib, seaborn e pygame
 
 ## Resultados
 

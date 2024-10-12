@@ -139,7 +139,7 @@ if __name__ == "__main__":
         params_ag = {
             "tamanho_populacao": 100,
             "num_geracoes": 1000,
-            "taxa_crossover": 0.8,
+            "taxa_crossover": 0.8,           # 1 para sempre existir crossover
             "taxa_mutacao": 0.01,
             "funcao_selecao": funcao_selecao # Adiciona a função de seleção aqui
         }

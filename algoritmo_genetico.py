@@ -31,9 +31,10 @@ def desenhar_solucao(tela, solucao, dados_conteineres, max_peso, max_volume, ger
     x = x_navio + 10  # Posição inicial x para contêineres
     y = y_navio + 10  # Posição inicial y para contêineres
 
-    # Variáveis para calcular o total do frete e volume ocupado
+    # Variáveis para calcular o total do frete, volume e peso ocupados
     total_frete = 0
     total_volume = 0
+    total_peso = 0
     num_containeres_alocados = 0
 
     # Desenha cada contêiner
@@ -42,6 +43,7 @@ def desenhar_solucao(tela, solucao, dados_conteineres, max_peso, max_volume, ger
             peso, volume, valor = dados_conteineres[i]
             total_frete += valor
             total_volume += volume
+            total_peso += peso
             num_containeres_alocados += 1
 
             # Define a cor do contêiner com base no valor
@@ -73,13 +75,15 @@ def desenhar_solucao(tela, solucao, dados_conteineres, max_peso, max_volume, ger
     ], 2)
 
     # Exibe informações na tela
-    fonte = pygame.font.Font(None, 30)
+    fonte = pygame.font.Font(None, 24)
     tela.blit(fonte.render(f"Geração: {geracao}", True, branco), (10, 10))
-    tela.blit(fonte.render(f"Total do Frete: $ {total_frete:.2f}", True, branco), (10, 40))
-    tela.blit(fonte.render(f"Volume Ocupado: {total_volume} m³", True, branco), (10, 70))
-    tela.blit(fonte.render(f"Contêineres Alocados: {num_containeres_alocados}", True, branco), (10, 100))
+    tela.blit(fonte.render(f"Total do Frete: $ {total_frete:.2f}", True, branco), (10, 40))    
+    tela.blit(fonte.render(f"Volume Ocupado: {total_volume:.2f} m³ de {max_volume} m³", True, branco), (10, 70))
+    tela.blit(fonte.render(f"Peso Ocupado: {total_peso:.2f} kg de {max_peso} kg", True, branco), (10, 100))
+    tela.blit(fonte.render(f"Contêineres Alocados: {num_containeres_alocados}", True, branco), (10, 130))
 
     pygame.display.flip()  # Atualiza a tela
+
 
 def inicializar_populacao(tamanho_populacao, tamanho_genoma):
     """
@@ -306,7 +310,7 @@ def algoritmo_genetico(dados_conteineres, max_peso, max_volume, visualizar,
         nova_populacao = []
         while len(nova_populacao) < tamanho_populacao:
             # Aplica crossover com a probabilidade definida
-            if random.random() < taxa_crossover:
+            if taxa_crossover == 1 or random.random() < taxa_crossover:
                 pai1, pai2 = funcao_selecao(populacao), funcao_selecao(populacao)
                 filho1, filho2 = crossover_dois_pontos(pai1, pai2)
                 nova_populacao.extend([filho1, filho2])
